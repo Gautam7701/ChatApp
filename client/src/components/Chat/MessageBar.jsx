@@ -5,6 +5,9 @@ import {ImAttachment} from "react-icons/im"
 import {MdSend} from "react-icons/md"
 
 function MessageBar() {
+  const sendMessage = async()=>{
+
+  }
   return (
   <div className="bg-panel-header-background h-20 px-4 flex items-center gap-6 relative">
     <>
@@ -23,6 +26,7 @@ function MessageBar() {
     <button>
       <MdSend className="text-panel-header-icon cursor-pointer text-xl"
       title="Send Message"
+      onClick={sendMessage}
       />
       {/* <FaMicrophone className="text-panel-header-icon cursor-pointer text-xl"
       title="Voice Message"
