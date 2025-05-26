@@ -25,6 +25,9 @@ function Login() {
   
   const handlelogin = async() => {
     const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({
+    prompt: 'select_account',
+  });
     const {user:{displayName:name,email, photoURL:profileImage}}= await signInWithPopup(firebaseAuth, provider);
     try{
       if(email){

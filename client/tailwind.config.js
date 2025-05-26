@@ -12,7 +12,7 @@ module.exports = {
         "photopicker-overlay-background": "rgba(30,42,49,0.8)",
         "dropdown-background": "#233138",
         "dropdown-background-hover": "#182229",
-        "input-background": " #2a3942",
+        "input-background": "#2a3942",
         "primary-strong": "#e9edef",
         "panel-header-background": "#202c33",
         "panel-header-icon": "#aebac1",

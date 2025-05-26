@@ -62,11 +62,17 @@ import { useRouter } from "next/router";
 import { useStateProvider } from "@/context/StateContext";
 import axios from "axios";
 import { reducerCases } from "@/context/constants";
+import { GET_MESSAGES_ROUTE } from "@/utils/ApiRoutes";
 import Chat from "./Chat/Chat";
+import { useRef } from "react";
+import { io } from "socket.io-client";
+import { HOST } from "@/utils/ApiRoutes.js";
 
 function Main() {
   const router = useRouter();
   const [redirectLogin, setRedirectLogin] = useState(false);
+  const[socketEvent, setSocketEvent] = useState(false);
+   const socket = useRef();
 
   const [{ userInfo, currentChatUser }, dispatch] = useStateProvider();
 
@@ -116,9 +122,47 @@ function Main() {
       }
     });
 
+    
+
     // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [router, userInfo, dispatch]);
+
+  useEffect(()=>{
+    if(userInfo){
+      socket.current = io(HOST);
+      socket.current.emit("add-user", userInfo.id);
+      dispatch({type: reducerCases.SET_SOCKET, socket});
+    }
+  },[userInfo])
+
+  useEffect(()=>{
+    if(socket.current && !socketEvent){ 
+      socket.current.on("msg-receive", (data) => {
+        console.log("Message received:", data);
+        dispatch({
+          type: reducerCases.ADD_MESSAGE,
+          newMessage:{
+            ...data.message,
+          }
+        });
+      }); 
+      setSocketEvent(true);
+  }},[socket.current]);
+
+  useEffect(()=>{
+      const getMessages = async()=>{
+        console.log("Fetching messages for", userInfo?.id, currentChatUser?.id);
+        const{data:{messages}} = await axios.get(`${GET_MESSAGES_ROUTE}/${userInfo.id}/${currentChatUser.id}`)
+        dispatch({
+          type: reducerCases.SET_MESSAGES,
+          messages
+        });
+      }
+      if( userInfo?.id && currentChatUser?.id){
+        getMessages();
+      }
+    },[currentChatUser,userInfo])
 
   return (
     <div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden">
@@ -126,7 +170,7 @@ function Main() {
       {
         currentChatUser?<Chat/>:<Empty/>
       }
-      <Chat/>
+      {/* <Chat/> */}
     </div>
   );
 }
