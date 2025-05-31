@@ -1,77 +1,3 @@
-// import React from "react";
-// import { useStateProvider } from "@/context/StateContext";
-
-// function ChatContainer() {
-//   const[{messages, currentChatUser, userInfo}] = useStateProvider();
-//   return <div className="h-[80vh] w-full relative flex flex-grow overflow-auto custom-scrollbar">
-//     <div className="bg-chat-background bg-fixed h-full w-full opacity-5 fixed left-0 top-0 z-0">
-//       <div className="flex w-full">
-//         <div className="flex flex-col justify-end w-full gap-1 overflow-auto ">
-//           {messages.map((message, index) => (
-//   <div key={message.id} className={`${message.senderId===currentChatUser?.id ? "justify-start": "justify-end"} `}>
-//     {message.type==="text" && (
-//       <div className={`text-white px-2 py-[5px] text-sm rounded-md flex gap-2 items-end max-w-[45%] ${message.senderId === currentChatUser.id?"bg-incoming-background": "bg-outgoing-background"}`}>
-//         <span className="break-all">{message.message}</span>
-//       </div>
-//     )}
-//   </div>
-// ))}
-//         </div>
-//       </div>
-//     </div>
-
-//   </div>;
-// }
-
-// export default ChatContainer;
-
-// import React from "react";
-// import { useStateProvider } from "@/context/StateContext";
-// import { calculateTime } from "@/utils/CalculateTime.js";
-
-// function ChatContainer() {
-//   const [{ messages, currentChatUser, userInfo }] = useStateProvider();
-
-//   return (
-//     <div className="h-[80vh] w-full relative flex flex-grow overflow-auto custom-scrollbar px-4 py-2">
-//       <div className="bg-chat-background bg-fixed h-full w-full opacity-5 fixed left-0 top-0 z-0" />
-
-//       <div className="flex flex-col justify-end w-full gap-2 z-10">
-//         {messages.map((message, index) => {
-//           const isSentByMe = message.senderId === userInfo?.id;
-//           return (
-//             <div
-//               key={message.id || index}
-//               className={`flex w-full ${isSentByMe ? "justify-end" : "justify-start"}`}
-//             >
-//               {message.type === "text" && (
-//                 <div
-//                   className={`text-sm px-3 py-2 rounded-xl shadow-md max-w-[75%] break-words ${
-//                     isSentByMe
-//                       ? "bg-[#dcf8c6] text-black"  // Outgoing message: WhatsApp green
-//                       : "bg-white text-black"      // Incoming message: WhatsApp white
-//                   }`}
-//                 >
-//                   <span className="break-all">{message.message}</span>
-//                   <div className="flex gap-1 items-end">
-//                     <span className="text-bubble-meta text-[11px] pt-1 min-w-fit">
-//                       {
-//                         calculateTime(message.createdAt)
-//                       }
-//                     </span>
-//                   </div>
-//                 </div>
-//               )}
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default ChatContainer;
-
 import React from "react";
 import { useStateProvider } from "@/context/StateContext";
 import { calculateTime } from "@/utils/CalculateTime.js";
@@ -79,18 +5,26 @@ import MessageStatus from "../common/MessageStatus.jsx";
 import ImageMessage from "./ImageMessage.jsx";
 import VoiceCall from "../Call/VoiceCall.jsx";
 import dynamic from "next/dynamic.js";
+import { useRef, useEffect} from "react";
 const VoiceMessage = dynamic(()=>import ("./VoiceMessage.jsx"),{
   ssr:false
 })
 
 function ChatContainer() {
   const [{ messages, currentChatUser, userInfo }] = useStateProvider();
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, currentChatUser]);
 
   return (
-    <div className="h-[80vh] w-full relative flex flex-grow overflow-auto custom-scrollbar px-4 py-2">
-      <div className="bg-chat-background bg-fixed h-full w-full opacity-5 fixed left-0 top-0 z-0" />
+    <div className="h-[80vh] w-full relative px-4 py-2">
+      <div className="bg-chat-background absolute inset-0 opacity-5  z-0" />
 
-      <div className="flex flex-col justify-end w-full gap-2 z-10">
+      <div className="flex flex-col  gap-2 z-10 overflow-y-auto h-full custom-scrollbar pr-2 relative">
         {messages.map((message, index) => {
           const isSentByMe = message.senderId === userInfo?.id;
           return (
@@ -127,6 +61,7 @@ function ChatContainer() {
             </div>
           );
         })}
+        <div ref={messagesEndRef}/>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ body {
   min-height: 100vh;
 }
 
-.custom-scrollbar ::-webkit-scrollbar{
+.custom-scrollbar::-webkit-scrollbar{
   height: 8px !important;
   width: 8px;
 }

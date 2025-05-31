@@ -64,7 +64,7 @@ import React, { useRef, useEffect, useState } from "react";
 
 function ContextMenu({ options, coordinates, ContextMenu, setContextMenu }) {
   const contextMenuRef = useRef(null);
-  const [position, setPosition] = useState(coordinates);
+  const [position, setPosition] = useState(coordinates || {x:0,y:0});
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -134,12 +134,24 @@ function ContextMenu({ options, coordinates, ContextMenu, setContextMenu }) {
         left: position.x,
       }}
     >
-      <ul className="space-y-1">
+      <ul className="space-y-1 cursor-pointer">
         {options.map(({ name, callback }) => (
           <li
             key={name}
             onClick={(e) => handleClick(e, callback)}
-            className="text-white hover:bg-gray-700 px-5 py-2 cursor-pointer rounded-md transition-all duration-150 ease-in-out"
+            className="
+  text-white
+  px-3 py-2
+  rounded-lg
+  cursor-pointer
+  hover:bg-gray-800
+  hover:text-gray-300
+  hover:shadow-md
+  transition
+  duration-200
+  ease-in-out
+"
+
           >
             {name}
           </li>

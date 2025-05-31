@@ -95,7 +95,7 @@ import { reducerCases } from "@/context/constants";
 import ContextMenu from "../common/ContextMenu";
 
 function ChatHeader() {
-  const [{ currentChatUser }, dispatch] = useStateProvider();
+  const [{ currentChatUser, onlineUsers }, dispatch] = useStateProvider();
 
   const [contextMenuCordinates, setContextMenuCordinates] = useState({
     x: 0,
@@ -105,6 +105,7 @@ function ChatHeader() {
 
   const showContextMenu = (e) => {
     e.preventDefault();
+    console.log("showContextMenu fired", e.pageX, e.pageY);
     setContextMenuCordinates({ x: e.pageX - 50, y: e.pageY + 20 });
     setIsContextMenuVisible(true);
   };
@@ -148,7 +149,11 @@ function ChatHeader() {
         <Avatar type="sm" profileImage={currentChatUser?.profilePicture} />
         <div className="flex flex-col">
           <span className="text-primary-strong">{currentChatUser?.name}</span>
-          <span className="text-secondary text-sm">online/offline</span>
+          <span className="text-secondary text-sm">
+            {
+              onlineUsers.includes(currentChatUser?.id) ?"online":"offline"
+            }
+          </span>
         </div>
       </div>
       <div className="flex gap-6 relative">
@@ -166,14 +171,16 @@ function ChatHeader() {
         />
         <BsThreeDotsVertical
           className="text-panel-header-icon cursor-pointer text-xl"
-          onClick={(e)=> showContextMenu(e)}
+          onClick={(e)=> { 
+            showContextMenu(e)}}
           id="context-opener"
         />
         {isContextMenuVisible && (
+          
           <ContextMenu
             options={contextMenuOptions}
-            cordinates={contextMenuCordinates}
-            contextMenu={isContextMenuVisible}
+            coordinates={contextMenuCordinates}
+            ContextMenu={isContextMenuVisible}
             setContextMenu={setIsContextMenuVisible}
           />
         )}

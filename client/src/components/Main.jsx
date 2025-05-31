@@ -181,6 +181,12 @@ function Main() {
         })
       })
 
+      socket.current.on("online-users",({onlineUsers})=>{
+        dispatch({
+          type:reducerCases.SET_ONLINE_USERS,
+           onlineUsers
+        })
+      })
       // socket.on("accept-incoming-call",({id})=>{
       //   const sendUserSocket
       // })
@@ -208,7 +214,6 @@ function Main() {
 
   return (
     <>
-
     {
       incomingVideoCall && <IncomingVideoCall/>
     }
