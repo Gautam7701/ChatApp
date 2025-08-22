@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+ import { PrismaClient } from '@prisma/client';
 
 
 
@@ -10,4 +10,4 @@ function getPrismaInstance(){
     }
     return prismaInstance;
 }
-export default getPrismaInstance; 
+export default getPrismaInstance;

@@ -11,10 +11,15 @@ export const initialState = {
   userContacts: [],
   onlineUsers: [],
   filteredContacts: [],
-  videocall:undefined,
-  voicecall:undefined,
-  incomingVoiceCall:undefined,
-  incomingVideoCall:undefined
+  videocall: undefined,
+  voicecall: undefined,
+  incomingVoiceCall: undefined,
+  incomingVideoCall: undefined,
+
+
+  //  currentGroup: undefined,
+  // groupMessages: [],
+  // groups: [],
 };
 
 const reducer = (state, action) => {
@@ -81,42 +86,64 @@ const reducer = (state, action) => {
         contactSearch: action.contactSearch,
         filteredContacts,
       };
-      case reducerCases.SET_VIDEO_CALL:
-        return{
-            ...state,
-            videocall:action.videocall,
-        }
+    case reducerCases.SET_VIDEO_CALL:
+      return {
+        ...state,
+        videocall: action.videocall,
+      }
 
-        case reducerCases.SET_VOICE_CALL:
-            return{
-                ...state,
-                voicecall:action.voicecall,
-            }
-        case reducerCases.SET_INCOMING_VIDEO_CALL:
-            return{
-                ...state,
-                incomingVideoCall:action.incomingVideoCall
-            }
-        case reducerCases.SET_INCOMING_VOICE_CALL:
-            return{
-                ...state,
-                incomingVoiceCall:action.incomingVoiceCall
-            }
-        case reducerCases.END_CALL:
-            return{
-                ...state,
-                voicecall:undefined,
-                videocall:undefined,
+    case reducerCases.SET_VOICE_CALL:
+      return {
+        ...state,
+        voicecall: action.voicecall,
+      }
+    case reducerCases.SET_INCOMING_VIDEO_CALL:
+      return {
+        ...state,
+        incomingVideoCall: action.incomingVideoCall
+      }
+    case reducerCases.SET_INCOMING_VOICE_CALL:
+      return {
+        ...state,
+        incomingVoiceCall: action.incomingVoiceCall
+      }
+    case reducerCases.END_CALL:
+      return {
+        ...state,
+        voicecall: undefined,
+        videocall: undefined,
 
 
-                incomingVideoCall:undefined,
-                incomingVoiceCall:undefined,
-            }
-        case reducerCases.SET_EXIT_CHAT:
-        return{
-            ...state,
-            currentChatUser:undefined,
-        }
+        incomingVideoCall: undefined,
+        incomingVoiceCall: undefined,
+      }
+    case reducerCases.SET_EXIT_CHAT:
+      return {
+        ...state,
+        currentChatUser: undefined,
+      }
+
+    // case reducerCases.SET_CURRENT_GROUP:
+    //   return {
+    //     ...state,
+    //     currentGroup: action.group,
+    //   };
+    // case reducerCases.SET_GROUP_MESSAGES:
+    //   return {
+    //     ...state,
+    //     groupMessages: action.groupMessages,
+    //   };
+    // case reducerCases.ADD_GROUP_MESSAGE:
+    //   return {
+    //     ...state,
+    //     groupMessages: [...state.groupMessages, action.newMessage],
+    //   };
+    // case reducerCases.SET_GROUPS:
+    //   return {
+    //     ...state,
+    //     groups: action.groups,
+    //   };
+
     default:
       return state;
   }

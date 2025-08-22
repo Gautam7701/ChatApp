@@ -1,5 +1,12 @@
 // export const HOST = "http://localhost:5000";
 export const HOST = "http://localhost:5000";
+// const GROUP_ROUTE = `${HOST}/api/groups`;
+
+// export const GET_ALL_GROUPS = `${GROUP_ROUTE}/get-groups`;
+// export const CREATE_GROUP = `${GROUP_ROUTE}/create-group`;
+// export const GET_GROUP_MESSAGES = `${GROUP_ROUTE}/get-messages`;
+// export const ADD_GROUP_MESSAGE = `${GROUP_ROUTE}/add-message`;
+
 
 // export const CHECK_USER = `${HOST}/api/auth/check-user`;
 const AUTH_ROUTE = `${HOST}/api/auth`;
@@ -7,6 +14,7 @@ const MESSAGE_ROUTE = `${HOST}/api/messages`;
 export const CHECK_USER = `${AUTH_ROUTE}/check-user`;
 export const ONBOARD_USER = `${AUTH_ROUTE}/onboard-user`;
 export const GET_ALL_CONTACTS = `${AUTH_ROUTE}/get-contacts`;
+export const GET_CALL_TOKEN = `${AUTH_ROUTE}/generate-token`;
 
 
 
