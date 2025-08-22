@@ -1,5 +1,5 @@
 // export const HOST = "http://localhost:5000";
-export const HOST = "https://chatapp-backend-3v2f.onrender.com";
+export const HOST = process.env.REACT_APP_API_URL;
 // const GROUP_ROUTE = `${HOST}/api/groups`;
 
 // export const GET_ALL_GROUPS = `${GROUP_ROUTE}/get-groups`;
